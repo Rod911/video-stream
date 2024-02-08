@@ -1,10 +1,15 @@
 import styles from "./page.module.css";
 import Directories from "@/components/directories";
+import { getApiUrl } from "./actions";
 
-export default function Page() {
+export default async function Page() {
+	const API_URL = await getApiUrl();
+
 	return (
-		<section className={styles.section}>
-			<Directories />
-		</section>
+		API_URL && (
+			<section className={styles.section}>
+				<Directories />
+			</section>
+		)
 	);
 }

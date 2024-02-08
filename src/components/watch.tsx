@@ -1,15 +1,19 @@
-import { getDirectories, getFile, subtitleTypes, watchUrl } from "../api/fetchContent";
+import { getDirectories, getFile, subtitleTypes, getFileSrc } from "@/api/fetchContent";
 import Player from "./player";
 
 export default async function Watch({ path }: { path: String }) {
 	const fileData = await getFile(path);
+	if (!fileData) return null;
 	const dirData = await getDirectories(fileData.parent);
-	const subtitleFiles = dirData.files
-		.filter((file) => subtitleTypes.includes(file.name.split(".").pop() as string))
-		.map((apiFile) => {
-			return { url: watchUrl(apiFile.id), name: apiFile.name };
-		});
-	const src = watchUrl(fileData.id);
+	if (!dirData) return null;
+	const subtitleFiles = await Promise.all(
+		dirData.files
+			.filter((file) => subtitleTypes.includes(file.name.split(".").pop() as string))
+			.map(async (apiFile) => {
+				return { url: await getFileSrc(apiFile.id), name: apiFile.name };
+			}),
+	);
+	const src = await getFileSrc(fileData.id);
 	return (
 		<div className="player-page">
 			<h1>{dirData.name}</h1>

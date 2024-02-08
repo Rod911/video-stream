@@ -24,3 +24,30 @@
 .section {
 	position: relative;
 }
+
+.headerRow {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: 1rem;
+}
+
+.headerForm {
+	display: flex;
+	gap: 0.5rem;
+}
+
+.headerInput {
+	padding: 0.5rem 1rem;
+	border: 1px solid currentColor;
+	background-color: transparent;
+	font: inherit;
+	width: 280px;
+}
+
+.headerButton {
+	background-color: transparent;
+	border: 1px solid currentColor;
+	padding: 0.5rem 1rem;
+	cursor: pointer;
+}
